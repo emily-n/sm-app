@@ -12,7 +12,7 @@ function Home() {
 
     return (
         <Grid columns={1} padded>
-            <Grid.Row>
+            <Grid.Row className="page-title">
                 <h1 style={{paddingBottom: 20}}>
                     Recent Posts
                 </h1>
