@@ -4,6 +4,7 @@ import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 
 function Register() {
+    const [errors, setErrors] = useState({});
     const [values, setValues] = useState({
         username: '',
         email: '',
@@ -19,6 +20,9 @@ function Register() {
         update(proxy, result) {
             console.log(result);
         },
+        onError(err) {
+            setErrors(err.graphQLErrors[0].extensions.exception.errors);
+        },
         variables: values
     })
 
@@ -29,7 +33,7 @@ function Register() {
 
     return (
         <div className="form-container">
-            <Form onSubmit={onSubmit} noValidate>
+            <Form onSubmit={onSubmit} noValidate className={loading? "loading": ''}>
                 <h1>Sign up</h1>
                 <Form.Input
                     label="Username"
@@ -63,6 +67,15 @@ function Register() {
                     Sign Up
                 </Button>
             </Form>
+            {Object.keys(errors).length > 0 && (
+                <div className="ui error message">
+                    <ul className="list">
+                    {Object.values(errors).map((value) => (
+                    <li key={value}>{value}</li>
+                    ))}
+                    </ul>
+                </div>
+            )}
         </div>
     );
 }
