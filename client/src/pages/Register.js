@@ -3,7 +3,7 @@ import { Button, Form } from 'semantic-ui-react';
 import gql from 'graphql-tag';
 import { useMutation } from '@apollo/react-hooks';
 
-function Register() {
+function Register(props) {
     const [errors, setErrors] = useState({});
     const [values, setValues] = useState({
         username: '',
@@ -17,8 +17,9 @@ function Register() {
     };
     
     const [addUser, { loading }] = useMutation(REGISTER_USER, {
-        update(proxy, result) {
+        update(_, result) {
             console.log(result);
+            props.history.push('/');
         },
         onError(err) {
             setErrors(err.graphQLErrors[0].extensions.exception.errors);
@@ -40,6 +41,7 @@ function Register() {
                     placeholder="Username.."
                     name="username"
                     type="text"
+                    error={errors.username ? true : false}
                     value={values.username}
                     onChange={onChange} />
                 <Form.Input
@@ -47,6 +49,7 @@ function Register() {
                     placeholder="Email.."
                     name="email"
                     type="email"
+                    error={errors.email ? true : false}
                     value={values.email}
                     onChange={onChange} />
                 <Form.Input
@@ -54,6 +57,7 @@ function Register() {
                     placeholder="Password.."
                     name="password"
                     type="password"
+                    error={errors.password ? true : false}
                     value={values.password}
                     onChange={onChange} />
                 <Form.Input
@@ -61,6 +65,7 @@ function Register() {
                     placeholder="Confirm Password.."
                     name="confirmPassword"
                     type="password"
+                    error={errors.confirmPassword ? true : false}
                     value={values.confirmPassword}
                     onChange={onChange} />
                 <Button type='submit' primary>
