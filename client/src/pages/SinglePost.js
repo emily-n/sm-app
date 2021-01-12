@@ -43,14 +43,14 @@ function SinglePost(props) {
 
         postMarkup = (
             <Grid>
-                <Grid.Row>
+                <Grid.Row style={{margin:10}}>
                     <Grid.Column width={2}>
                         <Image
                             src='https://react.semantic-ui.com/images/avatar/large/matthew.png'
                             size="tiny"
                             float="right" />
                     </Grid.Column>
-                    <Grid.Column width={12}>
+                    <Grid.Column width={12} className="border">
                         <Card fluid>
                             <Card.Content>
                                 <Card.Header>{username}</Card.Header>
