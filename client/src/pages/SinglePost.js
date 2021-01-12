@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useRef } from 'react';
 import gql from 'graphql-tag';
 import { useQuery, useMutation } from '@apollo/react-hooks';
 import moment from 'moment';
@@ -11,6 +11,7 @@ function SinglePost(props) {
     const { user } = useContext(AuthContext);
     const postId = props.match.params.postId;
     const [comment, setComment] = useState('');
+    const commentInputRef = useRef(null);
 
     const { data: { getPost } = {} } = useQuery(FETCH_POST_QUERY, {
         variables: {
@@ -20,6 +21,7 @@ function SinglePost(props) {
     const [submitComment] = useMutation(SUBMIT_COMMENT_MUTATION, {
         update() {
             setComment('');
+            commentInputRef.current.blur();
         },
         variables: {
             postId,
@@ -73,7 +75,7 @@ function SinglePost(props) {
                                <Form>
                                  <div className="ui action input fluid"> 
                                    <input type="text" placeholder="Comment.." name="comment" value={comment}
-                                        onChange={event => setComment(event.target.value)} />
+                                        ref={commentInputRef} onChange={event => setComment(event.target.value)} />
                                    <button type="submit" className="ui button teal" 
                                         disabled={comment.trim() === ''} onClick={submitComment}>
                                              Submit
