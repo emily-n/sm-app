@@ -1,20 +1,26 @@
-import React, { useContext, useState, useRef } from 'react';
+import React, { useContext } from 'react';
 import gql from 'graphql-tag';
-import { useQuery, useMutation } from '@apollo/react-hooks';
+import { useQuery } from '@apollo/react-hooks';
 import moment from 'moment';
-import { Button, Card, Form, Grid, Image, Icon, Label } from 'semantic-ui-react';
+import { Button, Card, Grid, Image, Icon, Label } from 'semantic-ui-react';
 import { AuthContext } from '../context/auth';
 import LikeButton from '../components/LikeButton';
+import DeleteButton from '../components/DeleteButton';
 
 function SinglePost(props) {
     const { user } = useContext(AuthContext);
     const postId = props.match.params.postId;
-    console.log(postId);
+
     const { data: { getPost } = {} } = useQuery(FETCH_POST_QUERY, {
         variables: {
             postId
         }
     })
+
+    function deletePostCallback() {
+        props.history.push('/');
+    }
+
     let postMarkup;
 
     if (!getPost) {
@@ -47,6 +53,7 @@ function SinglePost(props) {
                                  </Button>
                                  <Label basic color="blue" pointing='left'>{commentCount}</Label>
                               </Button>
+                              {user && user.username === username && <DeleteButton postId={id} callback={deletePostCallback}/>}
                           </Card.Content>
                        </Card>
                     </Grid.Column>
