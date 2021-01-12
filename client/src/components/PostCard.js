@@ -31,7 +31,7 @@ function PostCard({ post: { body, createdAt, id, username, likeCount, commentCou
                         {likeCount}
                     </Label>
                 </Button>
-                <Button as='div' labelPosition='right' size="mini" onClick={commentOnPost}>
+                <Button as='div' labelPosition='right' size="mini" as={Link} to={`/posts/${id}`}>
                     <Button color='blue' basic>
                         <Icon name='comments' />
                     </Button>
